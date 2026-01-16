@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { SquareArrowUpRightIcon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 
@@ -133,7 +133,7 @@ const projects = [
   {
     name: "dathway",
     description: "ai-powered learning platform helping individuals transition into tech careers with personalized learning paths and skill recommendations.",
-    href: "https://github.com/ireoluwacodes",
+    href: "https://dathway.com/",
     tech: [
       { Icon: NextJSIcon, name: "nextjs" },
       { Icon: ReduxIcon, name: "redux" },
