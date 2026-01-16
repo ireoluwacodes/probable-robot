@@ -14,7 +14,7 @@ const socialLinks = [
 
 export function Hero() {
   return (
-    <section id="hero" className="relative min-h-[100dvh] flex items-center geometric-bg pt-14">
+    <section id="hero" className="relative min-h-dvh flex items-center geometric-bg pt-14">
       {/* Floating geometric shapes - hidden on mobile for cleaner look */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         {/* Large circle - top right */}

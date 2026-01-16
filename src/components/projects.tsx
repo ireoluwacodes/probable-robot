@@ -262,7 +262,7 @@ export function Projects() {
               href={project.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex-shrink-0 p-4 sm:p-6 rounded-lg border border-border hover:border-primary/30 bg-card transition-colors flex flex-col w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              className="group shrink-0 p-4 sm:p-6 rounded-lg border border-border hover:border-primary/30 bg-card transition-colors flex flex-col w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
               style={{ scrollSnapAlign: 'start' }}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
