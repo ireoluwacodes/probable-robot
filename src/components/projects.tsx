@@ -176,56 +176,39 @@ const projects = [
 
 export function Projects() {
   const ref = useRef(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [itemsPerView, setItemsPerView] = useState(1)
   
-  // Responsive items per view
-  useEffect(() => {
-    const updateItemsPerView = () => {
-      if (window.innerWidth >= 1024) {
-        setItemsPerView(3)
-      } else if (window.innerWidth >= 640) {
-        setItemsPerView(2)
-      } else {
-        setItemsPerView(1)
-      }
-    }
-    
-    updateItemsPerView()
-    window.addEventListener('resize', updateItemsPerView)
-    return () => window.removeEventListener('resize', updateItemsPerView)
-  }, [])
+  // Handle scroll to update current index
+  const handleScroll = () => {
+    if (!scrollContainerRef.current) return
+    const container = scrollContainerRef.current
+    const scrollLeft = container.scrollLeft
+    const cardWidth = container.scrollWidth / projects.length
+    const newIndex = Math.round(scrollLeft / cardWidth)
+    setCurrentIndex(newIndex)
+  }
 
-  const maxIndex = Math.max(0, projects.length - itemsPerView)
-
-  // Reset index if it exceeds max after resize
-  useEffect(() => {
-    if (currentIndex > maxIndex) {
-      setCurrentIndex(maxIndex)
-    }
-  }, [maxIndex, currentIndex])
+  // Scroll to specific index
+  const scrollToIndex = (index: number) => {
+    if (!scrollContainerRef.current) return
+    const container = scrollContainerRef.current
+    const cardWidth = container.scrollWidth / projects.length
+    container.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth'
+    })
+  }
 
   const prev = () => {
-    setCurrentIndex((i) => Math.max(0, i - 1))
+    const newIndex = Math.max(0, currentIndex - 1)
+    scrollToIndex(newIndex)
   }
 
   const next = () => {
-    setCurrentIndex((i) => Math.min(maxIndex, i + 1))
-  }
-
-  // Calculate card width based on items per view
-  const getCardWidth = () => {
-    if (itemsPerView === 1) return 'calc(100% - 0px)'
-    if (itemsPerView === 2) return 'calc(50% - 12px)'
-    return 'calc(33.333% - 16px)'
-  }
-
-  // Calculate translation
-  const getTranslation = () => {
-    if (itemsPerView === 1) return currentIndex * 100
-    if (itemsPerView === 2) return currentIndex * 50
-    return currentIndex * 33.333
+    const newIndex = Math.min(projects.length - 1, currentIndex + 1)
+    scrollToIndex(newIndex)
   }
 
   return (
@@ -254,7 +237,7 @@ export function Projects() {
             </button>
             <button
               onClick={next}
-              disabled={currentIndex >= maxIndex}
+              disabled={currentIndex >= projects.length - 1}
               className="p-1.5 sm:p-2 rounded-full border border-border hover:border-foreground/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               aria-label="Next projects"
             >
@@ -263,26 +246,28 @@ export function Projects() {
           </div>
         </motion.div>
 
-        {/* Carousel container */}
-        <div className="overflow-hidden">
-          <motion.div
-            className="flex gap-4 sm:gap-6"
-            initial={false}
-            animate={{ x: `-${getTranslation()}%` }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          >
+        {/* Carousel container - native scroll snap */}
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex gap-4 sm:gap-6 overflow-x-auto scroll-snap-x scroll-snap-mandatory pb-4 -mb-4 scrollbar-hide"
+          style={{ 
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
           {projects.map((project, index) => (
-              <motion.a
+            <motion.a
               key={project.name}
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex-shrink-0 p-4 sm:p-6 rounded-lg border border-border hover:border-primary/30 bg-card transition-colors flex flex-col"
-                style={{ width: getCardWidth() }}
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex-shrink-0 p-4 sm:p-6 rounded-lg border border-border hover:border-primary/30 bg-card transition-colors flex flex-col w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              style={{ scrollSnapAlign: 'start' }}
               initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
                 <div className="flex items-start justify-between mb-2 sm:mb-3">
                   <h3 className="text-base sm:text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                     {project.name}
@@ -309,19 +294,18 @@ export function Projects() {
                         className="w-5 h-5 sm:w-6 sm:h-6 grayscale opacity-50 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 transition-all duration-300" 
                       />
                     </div>
+                  ))}
+                </div>
+            </motion.a>
                     ))}
                   </div>
-              </motion.a>
-            ))}
-            </motion.div>
-        </div>
 
         {/* Progress dots */}
         <div className="flex items-center justify-center gap-1.5 mt-6 sm:mt-8">
-          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+          {projects.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrentIndex(i)}
+              onClick={() => scrollToIndex(i)}
               className={`w-1.5 h-1.5 rounded-full transition-colors ${
                 i === currentIndex ? 'bg-primary' : 'bg-border hover:bg-muted-foreground'
               }`}
