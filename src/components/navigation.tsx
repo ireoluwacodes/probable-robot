@@ -1,86 +1,60 @@
-"use client"
+'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { motion } from "framer-motion"
 
 const navItems = [
-  { href: "#hero", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#tech-blog", label: "Blog" },
-  { href: "#contact", label: "Contact" },
+  { href: "#projects", label: "projects" },
+  { href: "#contact", label: "contact" },
 ]
 
 export function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">Righteousness Akinbola</span>
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-            >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle Menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="pr-0">
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled 
+          ? "bg-background/80 backdrop-blur-sm border-b border-border" 
+          : "bg-transparent"
+      }`}
+    >
+      <div className="container flex h-12 sm:h-14 items-center justify-between px-4 sm:px-6">
+        {/* Logo */}
+        <Link 
+          href="/" 
+          className="text-sm sm:text-base font-medium transition-colors"
+        >
+          <span className="text-foreground">ireoluwa</span>
+          <span className="text-primary">.ssh</span>
+        </Link>
+
+        {/* Navigation */}
+        <nav className="flex items-center gap-4 sm:gap-6">
+          {navItems.map((item) => (
             <Link
-              href="/"
-              className="flex items-center"
-              onClick={() => setIsOpen(false)}
+              key={item.href}
+              href={item.href}
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors link-underline"
             >
-              <span className="font-bold">Righteousness Akinbola</span>
+              {item.label}
             </Link>
-            <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-              <div className="flex flex-col space-y-3">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            {/* search or something, but skip */}
-          </div>
-          <nav className="flex items-center">
-            <ThemeToggle />
-          </nav>
-        </div>
+          ))}
+        </nav>
       </div>
-    </header>
+    </motion.header>
   )
 }
