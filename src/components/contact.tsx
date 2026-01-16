@@ -31,8 +31,8 @@ export function Contact() {
           </h2>
           
           <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8">
-            i'm always interested in exploring new opportunities, collaborating, 
-            or exchanging ideas. feel free to reach out if you'd like to connect.
+            i&apos;m always interested in exploring new opportunities, collaborating, 
+            or exchanging ideas. feel free to reach out if you&apos;d like to connect.
           </p>
 
           {/* Email button */}

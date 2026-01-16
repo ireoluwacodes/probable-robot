@@ -94,7 +94,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            welcome to my corner of the internet! i'm a software engineer passionate about 
+            welcome to my corner of the internet! i&apos;m a software engineer passionate about 
             building impactful solutions. i enjoy crafting efficient web and mobile 
             applications that solve real problems.
           </motion.p>
@@ -106,7 +106,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            you'll mostly find me working with{" "}
+            you&apos;ll mostly find me working with{" "}
             <span className="text-foreground">nestjs</span>,{" "}
             <span className="text-foreground">react</span>,{" "}
             <span className="text-foreground">python</span>, and{" "}
@@ -120,7 +120,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            "building software that makes a difference."
+            &ldquo;building software that makes a difference.&rdquo;
           </motion.p>
 
           {/* Social links */}
