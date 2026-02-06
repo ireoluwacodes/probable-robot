@@ -164,6 +164,15 @@ body {
   width: 100%;
 }
 
+/* Custom cursor - hide default when cursor-fx is active (pointer: fine only) */
+@media (pointer: fine) {
+  html.cursor-fx-active *,
+  html.cursor-fx-active *::before,
+  html.cursor-fx-active *::after {
+    cursor: none !important;
+  }
+}
+
 /* Hide scrollbar for carousel */
 .scrollbar-hide {
   -ms-overflow-style: none;

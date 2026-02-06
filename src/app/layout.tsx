@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
+import { CursorFx } from "@/components/cursor-fx";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -62,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${josefinSans.className} antialiased`}>
+        <CursorFx />
         <SmoothScroll />
         {children}
       </body>
