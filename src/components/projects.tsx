@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { SquareArrowUpRightIcon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
+import { projects as portfolioProjects } from "@/lib/portfolio-data"
 
 // Technology SVG Icons
 const NestJSIcon = ({ className }: { className?: string }) => (
@@ -68,15 +69,6 @@ const ReactIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-const SocketIOIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 128 128" className={className}>
-    <g fill="currentColor" fillRule="evenodd">
-      <path d="M63.951.001C28.696.001.001 28.696.001 63.951s28.695 63.95 63.95 63.95 63.95-28.695 63.95-63.95S99.206.001 63.95.001zm0 10.679c29.484 0 53.272 23.787 53.272 53.271 0 29.485-23.788 53.272-53.272 53.272-29.484 0-53.272-23.787-53.272-53.272 0-29.484 23.788-53.271 53.272-53.271z" fillRule="nonzero"></path>
-      <path d="M48.39 60.716c14.004-11.44 27.702-23.278 42.011-34.384-7.505 11.533-15.224 22.913-22.729 34.445-6.437.03-12.875.03-19.282-.061zM60.228 67.092c6.468 0 12.905 0 19.342.092-14.095 11.38-27.732 23.309-42.071 34.384 7.505-11.533 15.224-22.943 22.729-34.476z"></path>
-    </g>
-  </svg>
-)
-
 const MongoDBIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 128 128" className={className}>
     <path fillRule="evenodd" clipRule="evenodd" fill="currentColor" d="M88.038 42.812c1.605 4.643 2.761 9.383 3.141 14.296.472 6.095.256 12.147-1.029 18.142-.035.165-.109.32-.164.48-.403.001-.814-.049-1.208.012-3.329.523-6.655 1.065-9.981 1.604-3.438.557-6.881 1.092-10.313 1.687-1.216.21-2.721-.041-3.212 1.641-.014.046-.154.054-.235.08l.166-10.051-.169-24.252 1.602-.275c2.62-.429 5.24-.864 7.862-1.281 3.129-.497 6.261-.98 9.392-1.465 1.381-.215 2.764-.412 4.148-.618z"></path>
@@ -116,65 +108,31 @@ const ExpressIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-// Project data with actual content
-const projects = [
-  {
-    name: "davkart",
-    description: "b2b marketplace empowering distributors and small businesses to streamline operations and connect with fmcg manufacturers.",
-    href: "https://github.com/ireoluwacodes",
-    tech: [
-      { Icon: ExpressIcon, name: "express" },
-      { Icon: NestJSIcon, name: "nestjs" },
-      { Icon: TypeScriptIcon, name: "typescript" },
-      { Icon: PostgreSQLIcon, name: "postgresql" },
-      { Icon: RabbitMQIcon, name: "rabbitmq" },
-    ],
-  },
-  {
-    name: "dathway",
-    description: "ai-powered learning platform helping individuals transition into tech careers with personalized learning paths and skill recommendations.",
-    href: "https://dathway.com/",
-    tech: [
-      { Icon: NextJSIcon, name: "nextjs" },
-      { Icon: ReduxIcon, name: "redux" },
-      { Icon: TypeScriptIcon, name: "typescript" },
-      { Icon: TailwindIcon, name: "tailwind" },
-    ],
-  },
-  {
-    name: "curasphere",
-    description: "health center management system for bowen university streamlining appointments, vitals recording, and medical records.",
-    href: "https://github.com/ireoluwacodes",
-    tech: [
-      { Icon: FastAPIIcon, name: "fastapi" },
-      { Icon: ReactIcon, name: "react" },
-      { Icon: ZustandIcon, name: "zustand" },
-      { Icon: PostgreSQLIcon, name: "postgresql" },
-    ],
-  },
-  {
-    name: "sereneverse",
-    description: "supportive platform for addiction recovery featuring regular check-ins and real-time communication with assigned counselors.",
-    href: "https://github.com/ireoluwacodes",
-    tech: [
-      { Icon: SocketIOIcon, name: "socket.io" },
-      { Icon: MongoDBIcon, name: "mongodb" },
-      { Icon: ExpressIcon, name: "express" },
-    ],
-  },
-  {
-    name: "bowen nacos",
-    description: "university administrative platform with secure authentication and efficient object storage for seamless asset delivery.",
-    href: "https://nacosbowen.org.ng/",
-    tech: [
-      { Icon: NestJSIcon, name: "nestjs" },
-      { Icon: TypeScriptIcon, name: "typescript" },
-      { Icon: MongoDBIcon, name: "mongodb" },
-    ],
-  },
-]
+const techIconByName = {
+  nestjs: NestJSIcon,
+  typescript: TypeScriptIcon,
+  postgresql: PostgreSQLIcon,
+  rabbitmq: RabbitMQIcon,
+  nextjs: NextJSIcon,
+  redux: ReduxIcon,
+  zustand: ZustandIcon,
+  react: ReactIcon,
+  mongodb: MongoDBIcon,
+  fastapi: FastAPIIcon,
+  tailwind: TailwindIcon,
+  express: ExpressIcon,
+}
 
 export function Projects() {
+  const projects = portfolioProjects.map((project) => ({
+    ...project,
+    tech: project.tech
+      .map((techName) => ({
+        name: techName,
+        Icon: techIconByName[techName as keyof typeof techIconByName],
+      }))
+      .filter((tech) => Boolean(tech.Icon)),
+  }))
   const ref = useRef(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })

@@ -35,6 +35,7 @@ export function Navigation() {
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)
+  const openCli = () => window.dispatchEvent(new CustomEvent("cli:open"))
 
   return (
     <>
@@ -69,6 +70,13 @@ export function Navigation() {
                 {item.label}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={openCli}
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors link-underline"
+            >
+              cli
+            </button>
           </nav>
 
           {/* Hamburger / X - mobile only */}
@@ -176,6 +184,19 @@ export function Navigation() {
                   </Link>
                 </motion.div>
               ))}
+              <motion.button
+                type="button"
+                onClick={() => {
+                  closeMenu()
+                  openCli()
+                }}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: PANEL_COUNT * 0.06 + 0.2 + navItems.length * 0.05 }}
+                className="text-2xl font-medium text-primary-foreground hover:text-background transition-colors link-underline"
+              >
+                cli
+              </motion.button>
             </motion.nav>
           </motion.div>
         )}

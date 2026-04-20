@@ -3,6 +3,7 @@ import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
 import { CursorFx } from "@/components/cursor-fx";
+import { CliToggle } from "@/components/Cli/CliToggle";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -28,9 +29,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "https://www.ireoluwa.dev/og.jpg",
-        width: 512,
-        height: 512,
+        url: "/social-preview.png",
+        width: 1024,
+        height: 516,
         alt: "ireoluwa software engineer portfolio",
       },
     ],
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
       "i create high-performing, scalable applications using nestjs, react, python, and go. let's build something impactful together.",
     creator: "@ireoluwa_codes",
     site: "https://www.ireoluwa.dev",
-    images: ["https://www.ireoluwa.dev/android-chrome-512x512.png"],
+    images: ["/social-preview.png"],
   },
   icons: {
     icon: [
@@ -65,6 +66,7 @@ export default function RootLayout({
       <body className={`${josefinSans.className} antialiased`}>
         <CursorFx />
         <SmoothScroll />
+        <CliToggle />
         {children}
       </body>
     </html>

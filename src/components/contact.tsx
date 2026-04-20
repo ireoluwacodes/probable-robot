@@ -5,12 +5,13 @@ import { useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Mail01Icon, GithubIcon, Linkedin01Icon, NewTwitterIcon } from "@hugeicons/core-free-icons"
+import { contactInfo, socialLinks } from "@/lib/portfolio-data"
 
-const socialLinks = [
-  { icon: GithubIcon, href: "https://github.com/ireoluwacodes", label: "github" },
-  { icon: Linkedin01Icon, href: "https://linkedin.com/in/righteousness-akinbola-b4a479228", label: "linkedin" },
-  { icon: NewTwitterIcon, href: "https://twitter.com/ireoluwa_codes", label: "twitter" },
-]
+const socialIconByLabel = {
+  github: GithubIcon,
+  linkedin: Linkedin01Icon,
+  twitter: NewTwitterIcon,
+}
 
 export function Contact() {
   const ref = useRef(null)
@@ -48,9 +49,9 @@ export function Contact() {
               size="sm"
               className="gap-2 hover:border-primary hover:text-primary transition-colors text-xs sm:text-sm"
             >
-              <a href="mailto:righteousnessakinbola@gmail.com">
+              <a href={`mailto:${contactInfo.email}`}>
                 <HugeiconsIcon icon={Mail01Icon} size={14} className="sm:w-4 sm:h-4" />
-                <span className="truncate">righteousnessakinbola@gmail.com</span>
+                <span className="truncate">{contactInfo.email}</span>
               </a>
             </Button>
           </motion.div>
@@ -71,7 +72,7 @@ export function Contact() {
                 className="text-muted-foreground hover:text-primary transition-colors link-underline"
               >
                 <span className="flex items-center gap-1.5 text-xs sm:text-sm">
-                  <HugeiconsIcon icon={social.icon} size={14} className="sm:w-4 sm:h-4" />
+                  <HugeiconsIcon icon={socialIconByLabel[social.label as keyof typeof socialIconByLabel]} size={14} className="sm:w-4 sm:h-4" />
                   {social.label}
                 </span>
               </a>

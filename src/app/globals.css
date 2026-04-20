@@ -182,3 +182,25 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Hide scrollbar inside react-github-calendar internal wrapper */
+.react-activity-calendar__scroll-container,
+.react-activity-calendar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.react-activity-calendar__scroll-container::-webkit-scrollbar,
+.react-activity-calendar::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+.react-activity-calendar__scroll-container::-webkit-scrollbar-track,
+.react-activity-calendar__scroll-container::-webkit-scrollbar-thumb,
+.react-activity-calendar::-webkit-scrollbar-track,
+.react-activity-calendar::-webkit-scrollbar-thumb {
+  background: transparent !important;
+}

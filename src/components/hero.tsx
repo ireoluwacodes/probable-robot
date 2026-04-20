@@ -3,14 +3,16 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { GithubIcon, Mail01Icon, NewTwitterIcon, File02Icon } from "@hugeicons/core-free-icons"
+import { GithubIcon, Mail01Icon, NewTwitterIcon, File02Icon, Linkedin01Icon } from "@hugeicons/core-free-icons"
 import { Button } from "@/components/ui/button"
+import { bio, contactInfo, socialLinks, techStack, resumeUrl } from "@/lib/portfolio-data"
 
-const socialLinks = [
-  { icon: GithubIcon, href: "https://github.com/ireoluwacodes", label: "github" },
-  { icon: Mail01Icon, href: "mailto:righteousnessakinbola@gmail.com", label: "mail" },
-  { icon: NewTwitterIcon, href: "https://twitter.com/ireoluwa_codes", label: "twitter" },
-]
+const socialIconByLabel = {
+  github: GithubIcon,
+  mail: Mail01Icon,
+  twitter: NewTwitterIcon,
+  linkedin: Linkedin01Icon,
+}
 
 export function Hero() {
   return (
@@ -94,9 +96,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            welcome to my corner of the internet! i&apos;m a software engineer passionate about 
-            building impactful solutions. i enjoy crafting efficient web and mobile 
-            applications that solve real problems.
+            {bio}
           </motion.p>
 
           {/* Current work */}
@@ -107,10 +107,10 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             you&apos;ll mostly find me working with{" "}
-            <span className="text-foreground">nestjs</span>,{" "}
-            <span className="text-foreground">react</span>,{" "}
-            <span className="text-foreground">python</span>, and{" "}
-            <span className="text-foreground">go</span>.
+            <span className="text-foreground">{techStack[0]}</span>,{" "}
+            <span className="text-foreground">{techStack[1]}</span>,{" "}
+            <span className="text-foreground">{techStack[2]}</span>, and{" "}
+            <span className="text-foreground">{techStack[3]}</span>.
           </motion.p>
 
           {/* Italic quote */}
@@ -130,7 +130,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            {socialLinks.map((social) => (
+            {[...socialLinks, { label: "mail", href: `mailto:${contactInfo.email}` }].map((social) => (
               <Button
                 key={social.label}
                 variant="outline"
@@ -139,7 +139,7 @@ export function Hero() {
                 asChild
               >
                 <a href={social.href} target="_blank" rel="noopener noreferrer">
-                  <HugeiconsIcon icon={social.icon} size={16} />
+                  <HugeiconsIcon icon={socialIconByLabel[social.label as keyof typeof socialIconByLabel]} size={16} />
                   <span className="hidden xs:inline">{social.label}</span>
                 </a>
               </Button>
@@ -153,7 +153,7 @@ export function Hero() {
               asChild
             >
               <a 
-                href="https://docs.google.com/document/d/1JQqYFfl-KkD_96xa6CdkV-UhrS68I5sD1u9dGs4nMWI/edit?usp=sharing" 
+                href={resumeUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
