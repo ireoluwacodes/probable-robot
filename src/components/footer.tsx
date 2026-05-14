@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="py-6 sm:py-8 border-t border-border">
       <div className="container px-4 sm:px-6">
         <p className="text-center text-xs sm:text-sm text-muted-foreground">
-          © {new Date().getFullYear()} ireoluwa.
+          an ireoluwa.ssh production
         </p>
       </div>
     </footer>
